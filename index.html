@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MicroIntern | Small Projects. Big Opportunities.</title>
+    
+    <!-- Tailwind CSS via CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Google Fonts: Inter -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <!-- Custom Config & CSS -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: { sans: ['Inter', 'sans-serif'] }
+                }
+            }
+        }
+    </script>
+    <style>
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+        .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+        html { scroll-behavior: smooth; }
+    </style>
+</head>
+<body class="bg-slate-50 font-sans text-slate-800 selection:bg-blue-100 selection:text-blue-900">
+
+    <!-- NAVBAR -->
+    <nav class="sticky top-0 z-40 bg-white/80 backdrop-blur-md border-b border-slate-200/50">
+        <div class="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
+            <div class="flex items-center gap-2">
+                <div class="w-8 h-8 rounded-lg bg-blue-600 flex items-center justify-center text-white font-bold text-xl">M</div>
+                <span class="font-bold text-xl tracking-tight text-slate-900">MicroIntern</span>
+            </div>
+            
+            <div class="hidden md:flex items-center gap-8 text-sm font-medium text-slate-600">
+                <a href="#how-it-works" class="hover:text-blue-600 transition-colors">How It Works</a>
+                <a href="#opportunities" class="hover:text-blue-600 transition-colors">Opportunities</a>
+                <a href="#faq" class="hover:text-blue-600 transition-colors">FAQ</a>
+            </div>
+
+            <div class="hidden md:flex items-center gap-3">
+                <button onclick="openModal('loginModal')" class="px-5 py-2.5 rounded-full font-medium transition-all text-sm bg-transparent text-slate-600 hover:text-slate-900 hover:bg-slate-100">Log In</button>
+                <button onclick="openModal('postModal')" class="px-5 py-2.5 rounded-full font-medium transition-all text-sm bg-blue-600 text-white hover:bg-blue-700 shadow-sm">Post Project</button>
+            </div>
+
+            <button class="md:hidden text-slate-600 text-xl" onclick="document.getElementById('mobileMenu').classList.toggle('hidden')">
+                <i class="fa-solid fa-bars"></i>
+            </button>
+        </div>
+        <!-- Mobile Menu -->
+        <div id="mobileMenu" class="hidden md:hidden bg-white border-b border-slate-200 px-6 py-4 flex flex-col gap-4">
+            <a href="#how-it-works" class="text-slate-600 font-medium">How It Works</a>
+            <a href="#opportunities" class="text-slate-600 font-medium">Opportunities</a>
+            <button onclick="openModal('loginModal')" class="w-full py-2 bg-slate-100 rounded-full font-medium text-slate-700">Log In</button>
+        </div>
+    </nav>
+
+    <!-- HERO SECTION -->
+    <section class="relative pt-20 pb-32 overflow-hidden">
+        <div class="max-w-7xl mx-auto px-6 grid lg:grid-cols-2 gap-16 items-center">
+            <div class="max-w-2xl">
+                <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-50 text-blue-700 text-sm font-medium mb-6">
+                    <i class="fa-solid fa-sparkles"></i> Small Projects. Big Opportunities.
+                </div>
+                <h1 class="text-5xl lg:text-7xl font-bold tracking-tight text-slate-900 leading-[1.1] mb-6">
+                    Real Work.<br />
+                    <span class="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-blue-400">Real Experience.</span><br />
+                    Before You Graduate.
+                </h1>
+                <p class="text-lg text-slate-600 mb-8 leading-relaxed max-w-xl">
+                    MicroIntern connects students with companies for short-term projects that build real skills, real portfolios and real career opportunities.
+                </p>
+                <div class="flex flex-wrap items-center gap-4 mb-8">
+                    <a href="#opportunities" class="px-8 py-3 rounded-full font-medium text-white bg-blue-600 hover:bg-blue-700 shadow-sm">Find Projects</a>
+                    <button onclick="openModal('postModal')" class="px-8 py-3 rounded-full font-medium text-slate-800 bg-white border border-slate-200 hover:bg-slate-50">Hire Talent</button>
+                </div>
+                <div class="flex items-center gap-2 text-sm text-slate-500 font-medium">
+                    <i class="fa-solid fa-shield-check text-green-500"></i> Built for students. Designed for real-world experience.
+                </div>
+            </div>
+
+            <!-- Hero Visual Card -->
+            <div class="relative">
+                <div class="absolute inset-0 bg-gradient-to-tr from-blue-100 to-slate-50 rounded-3xl transform rotate-3 scale-105 -z-10"></div>
+                <div class="bg-white rounded-3xl shadow-xl shadow-slate-200/50 border border-slate-100 p-6 md:p-8 relative z-10">
+                    <div class="flex justify-between items-start mb-6">
+                        <div>
+                            <div class="text-sm text-blue-600 font-medium mb-1">Marketing</div>
+                            <h3 class="text-xl font-bold text-slate-900">Redesign Instagram Strategy</h3>
+                            <p class="text-slate-500 text-sm mt-1">Nova Labs • Tech Startup</p>
+                        </div>
+                        <div class="bg-blue-50 text-blue-700 px-3 py-1 rounded-full text-sm font-bold flex items-center gap-1">
+                            <i class="fa-solid fa-bolt"></i> 94% Match
+                        </div>
+                    </div>
+                    
+                    <div class="grid grid-cols-2 gap-4 mb-6">
+                        <div class="bg-slate-50 rounded-xl p-3">
+                            <div class="text-slate-400 text-xs uppercase font-semibold mb-1">Duration</div>
+                            <div class="font-medium flex items-center gap-2"><i class="fa-regular fa-clock"></i> 7 days</div>
+                        </div>
+                        <div class="bg-slate-50 rounded-xl p-3">
+                            <div class="text-slate-400 text-xs uppercase font-semibold mb-1">Budget</div>
+                            <div class="font-medium flex items-center gap-2"><i class="fa-solid fa-indian-rupee-sign"></i> 3,000</div>
+                        </div>
+                    </div>
+
+                    <div class="mb-6">
+                        <div class="text-slate-400 text-xs uppercase font-semibold mb-2">Required Skills</div>
+                        <div class="flex flex-wrap gap-2">
+                            <span class="bg-slate-100 text-slate-700 text-xs px-2.5 py-1 rounded-md">Marketing</span>
+                            <span class="bg-slate-100 text-slate-700 text-xs px-2.5 py-1 rounded-md">Canva</span>
+                            <span class="bg-slate-100 text-slate-700 text-xs px-2.5 py-1 rounded-md">Social Media</span>
+                        </div>
+                    </div>
+                    <button class="w-full px-5 py-3 rounded-full font-medium bg-blue-600 text-white hover:bg-blue-700">Apply Now</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- LIVE OPPORTUNITIES -->
+    <section class="py-24 bg-white" id="opportunities">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="flex flex-col md:flex-row justify-between items-end gap-6 mb-12">
+                <div>
+                    <h2 class="text-3xl font-bold text-slate-900 mb-2">Live Opportunities</h2>
+                    <p class="text-slate-600">Find short-term projects that match your skills.</p>
+                </div>
+                <div class="relative w-full md:w-64">
+                    <i class="fa-solid fa-search absolute left-4 top-1/2 -translate-y-1/2 text-slate-400"></i>
+                    <input type="text" id="searchInput" placeholder="Search projects..." class="w-full pl-10 pr-4 py-2.5 rounded-full border border-slate-200 focus:outline-none focus:ring-2 focus:ring-blue-600 text-sm" onkeyup="filterProjects()">
+                </div>
+            </div>
+
+            <!-- Project Grid -->
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6" id="projectGrid">
+                <!-- Card 1 -->
+                <div class="project-card bg-slate-50 rounded-2xl p-6 border border-slate-200 hover:shadow-lg transition-all flex flex-col" data-title="build a landing page html css react development">
+                    <div class="flex justify-between items-start mb-4">
+                        <div class="w-10 h-10 bg-white rounded-lg flex items-center justify-center font-bold text-slate-700 shadow-sm">N</div>
+                        <span class="bg-green-100 text-green-700 text-xs font-semibold px-2 py-1 rounded-md">Open</span>
+                    </div>
+                    <h3 class="font-bold text-lg text-slate-900 mb-1">Build a Landing Page</h3>
+                    <p class="text-slate-500 text-sm mb-4">Nova Labs</p>
+                    <div class="flex items-center gap-4 text-sm text-slate-600 mb-6">
+                        <span class="flex items-center gap-1"><i class="fa-solid fa-indian-rupee-sign"></i> 5,000</span>
+                        <span class="flex items-center gap-1"><i class="fa-regular fa-clock"></i> 7 days</span>
+                    </div>
+                    <div class="mt-auto pt-4 border-t border-slate-200 flex items-center justify-between">
+                        <div class="flex gap-1 overflow-hidden">
+                            <span class="bg-white border border-slate-200 text-slate-600 text-xs px-2 py-1 rounded">HTML</span>
+                            <span class="bg-white border border-slate-200 text-slate-600 text-xs px-2 py-1 rounded">React</span>
+                        </div>
+                        <button onclick="openModal('projectModal')" class="px-3 py-1 rounded-full text-sm font-medium text-blue-600 bg-blue-50">View</button>
+                    </div>
+                </div>
+
+                <!-- Card 2 -->
+                <div class="project-card bg-slate-50 rounded-2xl p-6 border border-slate-200 hover:shadow-lg transition-all flex flex-col" data-title="instagram content strategy marketing canva">
+                    <div class="flex justify-between items-start mb-4">
+                        <div class="w-10 h-10 bg-white rounded-lg flex items-center justify-center font-bold text-slate-700 shadow-sm">B</div>
+                        <span class="bg-green-100 text-green-700 text-xs font-semibold px-2 py-1 rounded-md">Open</span>
+                    </div>
+                    <h3 class="font-bold text-lg text-slate-900 mb-1">Instagram Strategy</h3>
+                    <p class="text-slate-500 text-sm mb-4">Bloom Co.</p>
+                    <div class="flex items-center gap-4 text-sm text-slate-600 mb-6">
+                        <span class="flex items-center gap-1"><i class="fa-solid fa-indian-rupee-sign"></i> 3,000</span>
+                        <span class="flex items-center gap-1"><i class="fa-regular fa-clock"></i> 5 days</span>
+                    </div>
+                    <div class="mt-auto pt-4 border-t border-slate-200 flex items-center justify-between">
+                        <div class="flex gap-1 overflow-hidden">
+                            <span class="bg-white border border-slate-200 text-slate-600 text-xs px-2 py-1 rounded">Marketing</span>
+                            <span class="bg-white border border-slate-200 text-slate-600 text-xs px-2 py-1 rounded">Canva</span>
+                        </div>
+                        <button onclick="openModal('projectModal')" class="px-3 py-1 rounded-full text-sm font-medium text-blue-600 bg-blue-50">View</button>
+                    </div>
+                </div>
+
+                <!-- Card 3 -->
+                <div class="project-card bg-slate-50 rounded-2xl p-6 border border-slate-200 hover:shadow-lg transition-all flex flex-col" data-title="customer survey analysis data excel python">
+                    <div class="flex justify-between items-start mb-4">
+                        <div class="w-10 h-10 bg-white rounded-lg flex items-center justify-center font-bold text-slate-700 shadow-sm">D</div>
+                        <span class="bg-green-100 text-green-700 text-xs font-semibold px-2 py-1 rounded-md">Open</span>
+                    </div>
+                    <h3 class="font-bold text-lg text-slate-900 mb-1">Survey Analysis</h3>
+                    <p class="text-slate-500 text-sm mb-4">DataSync</p>
+                    <div class="flex items-center gap-4 text-sm text-slate-600 mb-6">
+                        <span class="flex items-center gap-1"><i class="fa-solid fa-indian-rupee-sign"></i> 4,000</span>
+                        <span class="flex items-center gap-1"><i class="fa-regular fa-clock"></i> 10 days</span>
+                    </div>
+                    <div class="mt-auto pt-4 border-t border-slate-200 flex items-center justify-between">
+                        <div class="flex gap-1 overflow-hidden">
+                            <span class="bg-white border border-slate-200 text-slate-600 text-xs px-2 py-1 rounded">Excel</span>
+                            <span class="bg-white border border-slate-200 text-slate-600 text-xs px-2 py-1 rounded">Python</span>
+                        </div>
+                        <button onclick="openModal('projectModal')" class="px-3 py-1 rounded-full text-sm font-medium text-blue-600 bg-blue-50">View</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ -->
+    <section class="py-24 bg-slate-50" id="faq">
+        <div class="max-w-3xl mx-auto px-6">
+            <h2 class="text-3xl font-bold text-center mb-12">Frequently Asked Questions</h2>
+            <div class="space-y-4">
+                <details class="group bg-white rounded-xl border border-slate-200 [&_summary::-webkit-details-marker]:hidden">
+                    <summary class="flex items-center justify-between p-6 cursor-pointer font-medium text-slate-800">
+                        What is a micro-internship?
+                        <i class="fa-solid fa-chevron-down text-slate-400 group-open:rotate-180 transition"></i>
+                    </summary>
+                    <div class="px-6 pb-6 text-slate-600 text-sm leading-relaxed">
+                        A short-term, paid, professional assignment that is similar to those given to new hires or interns, typically lasting a few days to a few weeks.
+                    </div>
+                </details>
+                <details class="group bg-white rounded-xl border border-slate-200 [&_summary::-webkit-details-marker]:hidden">
+                    <summary class="flex items-center justify-between p-6 cursor-pointer font-medium text-slate-800">
+                        Are projects paid?
+                        <i class="fa-solid fa-chevron-down text-slate-400 group-open:rotate-180 transition"></i>
+                    </summary>
+                    <div class="px-6 pb-6 text-slate-600 text-sm leading-relaxed">
+                        Yes. All projects on MicroIntern are paid. Companies set a fixed budget for the project deliverables.
+                    </div>
+                </details>
+            </div>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="bg-slate-900 text-slate-400 py-12 border-t border-slate-800">
+        <div class="max-w-7xl mx-auto px-6 text-sm text-center">
+            <div class="text-white font-bold text-xl mb-4">MicroIntern</div>
+            <p>© 2026 MicroIntern. Small Projects. Big Opportunities.</p>
+        </div>
+    </footer>
+
+    <!-- MODALS (Hidden by default) -->
+    <!-- Login Modal -->
+    <div id="loginModal" class="hidden fixed inset-0 z-50 items-center justify-center p-4 bg-slate-900/50 backdrop-blur-sm">
+        <div class="bg-white rounded-2xl w-full max-w-md shadow-2xl overflow-hidden flex flex-col">
+            <div class="flex justify-between items-center p-5 border-b border-slate-100">
+                <h3 class="font-semibold text-lg text-slate-800">Welcome Back</h3>
+                <button onclick="closeModal('loginModal')" class="p-1 text-slate-500 hover:text-slate-800"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+            <div class="p-5">
+                <form onsubmit="event.preventDefault(); closeModal('loginModal'); alert('Login successful!');">
+                    <div class="mb-4">
+                        <label class="block text-sm font-medium text-slate-700 mb-1">Email</label>
+                        <input type="email" required class="w-full px-4 py-2 rounded-lg border border-slate-200 outline-none focus:border-blue-600" placeholder="name@university.edu">
+                    </div>
+                    <div class="mb-6">
+                        <label class="block text-sm font-medium text-slate-700 mb-1">Password</label>
+                        <input type="password" required class="w-full px-4 py-2 rounded-lg border border-slate-200 outline-none focus:border-blue-600" placeholder="••••••••">
+                    </div>
+                    <button type="submit" class="w-full px-5 py-2.5 rounded-full font-medium bg-blue-600 text-white hover:bg-blue-700">Log In</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Post Project Modal -->
+    <div id="postModal" class="hidden fixed inset-0 z-50 items-center justify-center p-4 bg-slate-900/50 backdrop-blur-sm">
+        <div class="bg-white rounded-2xl w-full max-w-md shadow-2xl overflow-hidden flex flex-col">
+            <div class="flex justify-between items-center p-5 border-b border-slate-100">
+                <h3 class="font-semibold text-lg text-slate-800">Post a Project</h3>
+                <button onclick="closeModal('postModal')" class="p-1 text-slate-500 hover:text-slate-800"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+            <div class="p-5">
+                <form onsubmit="event.preventDefault(); closeModal('postModal'); alert('Project Posted!');">
+                    <div class="mb-4">
+                        <label class="block text-sm font-medium text-slate-700 mb-1">Project Title</label>
+                        <input type="text" required class="w-full px-4 py-2 rounded-lg border border-slate-200 outline-none focus:border-blue-600" placeholder="e.g. Design a Logo">
+                    </div>
+                    <div class="grid grid-cols-2 gap-4 mb-6">
+                        <div>
+                            <label class="block text-sm font-medium text-slate-700 mb-1">Budget (₹)</label>
+                            <input type="number" required class="w-full px-4 py-2 rounded-lg border border-slate-200 outline-none focus:border-blue-600" placeholder="3000">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-slate-700 mb-1">Duration</label>
+                            <input type="text" required class="w-full px-4 py-2 rounded-lg border border-slate-200 outline-none focus:border-blue-600" placeholder="e.g. 5 days">
+                        </div>
+                    </div>
+                    <button type="submit" class="w-full px-5 py-2.5 rounded-full font-medium bg-blue-600 text-white hover:bg-blue-700">Post Now</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Project Details Modal -->
+    <div id="projectModal" class="hidden fixed inset-0 z-50 items-center justify-center p-4 bg-slate-900/50 backdrop-blur-sm">
+        <div class="bg-white rounded-2xl w-full max-w-md shadow-2xl overflow-hidden flex flex-col">
+            <div class="flex justify-between items-center p-5 border-b border-slate-100">
+                <h3 class="font-semibold text-lg text-slate-800">Project Details</h3>
+                <button onclick="closeModal('projectModal')" class="p-1 text-slate-500 hover:text-slate-800"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+            <div class="p-5">
+                <h2 class="text-xl font-bold text-slate-900 mb-2">Build a Landing Page</h2>
+                <p class="text-slate-500 text-sm mb-6"><i class="fa-solid fa-building"></i> Nova Labs</p>
+                <div class="grid grid-cols-2 gap-4 bg-slate-50 p-4 rounded-xl mb-6">
+                    <div>
+                        <div class="text-xs text-slate-500 uppercase font-semibold">Budget</div>
+                        <div class="font-semibold text-slate-900 mt-1"><i class="fa-solid fa-indian-rupee-sign"></i> 5,000</div>
+                    </div>
+                    <div>
+                        <div class="text-xs text-slate-500 uppercase font-semibold">Timeline</div>
+                        <div class="font-semibold text-slate-900 mt-1"><i class="fa-regular fa-clock"></i> 7 days</div>
+                    </div>
+                </div>
+                <button onclick="closeModal('projectModal'); alert('Application Sent!');" class="w-full px-5 py-2.5 rounded-full font-medium bg-blue-600 text-white hover:bg-blue-700">Apply Now</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Javascript for Interactions -->
+    <script>
+        // Modal Logic
+        function openModal(id) {
+            document.getElementById(id).classList.remove('hidden');
+            document.getElementById(id).classList.add('flex');
+        }
+        function closeModal(id) {
+            document.getElementById(id).classList.add('hidden');
+            document.getElementById(id).classList.remove('flex');
+        }
+
+        // Live Search Logic
+        function filterProjects() {
+            let input = document.getElementById('searchInput').value.toLowerCase();
+            let cards = document.getElementsByClassName('project-card');
+            
+            for (let i = 0; i < cards.length; i++) {
+                let searchData = cards[i].getAttribute('data-title');
+                if (searchData.includes(input)) {
+                    cards[i].style.display = "flex";
+                } else {
+                    cards[i].style.display = "none";
+                }
+            }
+        }
+    </script>
+</body>
+</html>

@@ -4,214 +4,865 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Zyqor Intern | Small Projects. Big Opportunities.</title>
-    
-    <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-    
-    <!-- Tailwind CSS via CDN -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    fontFamily: { sans: ['Inter', 'sans-serif'] },
-                    colors: {
-                        background: '#FAFAFA',
-                        foreground: '#111111',
-                        accent: '#0055FF',
-                        accentHover: '#0044CC',
-                        surface: '#FFFFFF',
-                        border: '#E5E5E5',
-                        muted: '#737373',
-                    },
-                    boxShadow: {
-                        'subtle': '0 1px 2px rgba(0, 0, 0, 0.04)',
-                        'float': '0 8px 30px rgba(0, 0, 0, 0.08)',
-                    }
-                }
-            }
-        }
-    </script>
+    <script src="https://unpkg.com/lucide@latest"></script>
     <style>
-        body { font-family: 'Inter', sans-serif; background-color: #FAFAFA; color: #111111; }
-        .fade-in { animation: fadeIn 0.4s ease-in-out; }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-        .spinner { border: 3px solid rgba(0,85,255,0.1); border-left-color: #0055FF; border-radius: 50%; width: 24px; height: 24px; animation: spin 1s linear infinite; }
-        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+        /* ========================================================
+           DESIGN SYSTEM & VARIABLES
+        ======================================================== */
+        :root {
+            --bg: #FAFAFA;
+            --surface: #FFFFFF;
+            --text: #111111;
+            --muted: #737373;
+            --border: #E5E5E5;
+            --accent: #0055FF;
+            --accent-hover: #0044CC;
+            --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.04);
+            --shadow-md: 0 8px 24px rgba(0, 0, 0, 0.06);
+            --shadow-lg: 0 24px 48px rgba(0, 0, 0, 0.08);
+            --radius-sm: 6px;
+            --radius-md: 10px;
+            --radius-lg: 16px;
+            --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            --container-width: 1200px;
+            --transition: all 0.25s ease;
+        }
+
+        /* ========================================================
+           RESET & BASE
+        ======================================================== */
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+        body {
+            font-family: var(--font-sans);
+            background-color: var(--bg);
+            color: var(--text);
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+        }
+        ul { list-style: none; }
+        a { text-decoration: none; color: inherit; }
+        button { border: none; background: none; cursor: pointer; font-family: inherit; }
+        img { max-width: 100%; height: auto; display: block; }
+
+        /* Typography */
+        h1, h2, h3, h4 { font-weight: 600; line-height: 1.1; letter-spacing: -0.03em; color: var(--text); }
+        h1 { font-size: clamp(3rem, 6vw, 5rem); }
+        h2 { font-size: clamp(2rem, 4vw, 3rem); margin-bottom: 1.5rem; }
+        h3 { font-size: 1.5rem; margin-bottom: 0.75rem; }
+        p { color: var(--muted); font-size: 1.125rem; }
+        .text-sm { font-size: 0.875rem; color: var(--muted); }
+        .label { font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.05em; font-weight: 600; color: var(--accent); }
+        .badge { display: inline-flex; align-items: center; padding: 4px 10px; background: rgba(0,85,255,0.08); border: 1px solid rgba(0,85,255,0.15); border-radius: 100px; color: var(--accent); font-size: 0.75rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; }
+        .badge-demo { background: #f3f4f6; color: #4b5563; border-color: #e5e7eb; }
+
+        /* Utilities */
+        .container { max-width: var(--container-width); margin: 0 auto; padding: 0 2rem; }
+        .section { padding: 8rem 0; border-bottom: 1px solid var(--border); }
+        .section-dark { background-color: var(--text); color: var(--surface); }
+        .section-dark h2, .section-dark p { color: var(--surface); }
+        .section-dark .muted { color: #a1a1aa; }
+        
+        /* Buttons */
+        .btn { display: inline-flex; justify-content: center; align-items: center; padding: 0.875rem 1.5rem; border-radius: var(--radius-sm); font-weight: 500; font-size: 0.95rem; transition: var(--transition); text-decoration: none; }
+        .btn-primary { background: var(--accent); color: #fff; box-shadow: var(--shadow-sm); }
+        .btn-primary:hover { background: var(--accent-hover); transform: translateY(-1px); box-shadow: var(--shadow-md); }
+        .btn-secondary { background: var(--surface); color: var(--text); border: 1px solid var(--border); box-shadow: var(--shadow-sm); }
+        .btn-secondary:hover { background: #f9fafb; border-color: #d1d5db; }
+        
+        /* Animations */
+        .reveal { opacity: 0; transform: translateY(20px); transition: opacity 0.8s ease, transform 0.8s ease; }
+        .reveal.active { opacity: 1; transform: translateY(0); }
+
+        /* ========================================================
+           COMPONENTS
+        ======================================================== */
+        /* Navbar */
+        .navbar { position: fixed; top: 0; width: 100%; background: rgba(250, 250, 250, 0.8); backdrop-filter: blur(12px); border-bottom: 1px solid transparent; z-index: 100; transition: var(--transition); }
+        .navbar.scrolled { border-bottom-color: var(--border); padding: 0.5rem 0; }
+        .nav-container { display: flex; justify-content: space-between; align-items: center; height: 5rem; transition: var(--transition); }
+        .navbar.scrolled .nav-container { height: 4rem; }
+        .logo { display: flex; flex-direction: column; line-height: 1; }
+        .logo span:first-child { font-weight: 700; font-size: 1.25rem; letter-spacing: -0.02em; }
+        .logo span:last-child { font-size: 0.65rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--accent); font-weight: 600; }
+        .nav-links { display: flex; gap: 2.5rem; }
+        .nav-links a { font-size: 0.9rem; font-weight: 500; color: var(--muted); transition: var(--transition); }
+        .nav-links a:hover { color: var(--text); }
+        .nav-actions { display: flex; gap: 1rem; align-items: center; }
+        .menu-toggle { display: none; }
+
+        /* Hero */
+        .hero { padding: 12rem 0 8rem; min-height: 100vh; display: flex; align-items: center; }
+        .hero-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: center; }
+        .hero-content p { margin-bottom: 2.5rem; font-size: 1.25rem; }
+        .hero-btns { display: flex; gap: 1rem; }
+        .hero-visual { position: relative; }
+        .mock-ui { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 2rem; box-shadow: var(--shadow-lg); position: relative; z-index: 2; transform: perspective(1000px) rotateY(-5deg); transition: transform 0.5s ease; }
+        .mock-ui:hover { transform: perspective(1000px) rotateY(0deg); }
+        .mock-ui-header { display: flex; justify-content: space-between; margin-bottom: 1.5rem; }
+        .mock-tags { display: flex; gap: 0.5rem; margin: 1.5rem 0; }
+        .mock-tag { padding: 0.25rem 0.75rem; background: var(--bg); border: 1px solid var(--border); border-radius: 4px; font-size: 0.75rem; color: var(--muted); }
+        .ui-decoration { position: absolute; background: linear-gradient(135deg, rgba(0,85,255,0.1) 0%, rgba(0,85,255,0) 100%); width: 300px; height: 300px; border-radius: 50%; filter: blur(40px); top: -20px; right: -20px; z-index: 1; }
+
+        /* Experience Gap */
+        .gap-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; margin-top: 4rem; }
+        .gap-card { padding: 3rem; background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-lg); }
+        .gap-card.highlight { border-color: var(--accent); box-shadow: 0 0 0 1px var(--accent); }
+        .gap-list li { display: flex; align-items: center; gap: 1rem; margin-bottom: 1.5rem; color: var(--muted); }
+        .gap-list li i { color: var(--accent); }
+
+        /* How it Works */
+        .workflow-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; margin-top: 4rem; }
+        .workflow-column h3 { padding-bottom: 1rem; border-bottom: 1px solid var(--border); margin-bottom: 2rem; }
+        .workflow-step { display: flex; gap: 1.5rem; margin-bottom: 2rem; opacity: 0.6; transition: var(--transition); cursor: default; }
+        .workflow-step:hover { opacity: 1; transform: translateX(10px); }
+        .step-num { font-family: monospace; font-size: 1.25rem; font-weight: 700; color: var(--accent); }
+
+        /* Marketplace */
+        .filter-bar { display: flex; gap: 1rem; margin: 3rem 0; flex-wrap: wrap; }
+        .filter-input { padding: 0.75rem 1rem; border: 1px solid var(--border); border-radius: var(--radius-sm); font-family: inherit; font-size: 0.9rem; flex-grow: 1; max-width: 300px; }
+        .filter-btn { padding: 0.75rem 1.5rem; background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-sm); cursor: pointer; transition: var(--transition); }
+        .filter-btn:hover, .filter-btn.active { background: var(--text); color: var(--surface); border-color: var(--text); }
+        
+        .projects-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 1.5rem; }
+        .project-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-md); padding: 1.5rem; transition: var(--transition); cursor: pointer; display: flex; flex-direction: column; }
+        .project-card:hover { border-color: var(--accent); box-shadow: var(--shadow-md); transform: translateY(-2px); }
+        .p-meta { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem; }
+        .p-title { font-size: 1.25rem; margin-bottom: 0.5rem; }
+        .p-company { font-size: 0.875rem; color: var(--muted); margin-bottom: 1.5rem; }
+        .p-footer { margin-top: auto; padding-top: 1.5rem; border-top: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; }
+        .p-price { font-weight: 600; color: var(--accent); }
+
+        /* Student Dashboard (Demo) */
+        .demo-dashboard { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-lg); overflow: hidden; margin-top: 3rem; box-shadow: var(--shadow-sm); }
+        .demo-dash-header { border-bottom: 1px solid var(--border); padding: 1.5rem 2rem; display: flex; justify-content: space-between; align-items: center; }
+        .demo-dash-grid { display: grid; grid-template-columns: 250px 1fr; }
+        .demo-sidebar { border-right: 1px solid var(--border); padding: 2rem; }
+        .demo-sidebar ul li { padding: 0.75rem 1rem; border-radius: var(--radius-sm); margin-bottom: 0.5rem; color: var(--muted); font-size: 0.9rem; font-weight: 500; }
+        .demo-sidebar ul li.active { background: var(--bg); color: var(--text); }
+        .demo-content { padding: 2rem; background: var(--bg); }
+        .status-track { display: flex; justify-content: space-between; position: relative; margin-top: 2rem; padding: 2rem; background: var(--surface); border-radius: var(--radius-md); border: 1px solid var(--border); }
+        .status-track::before { content: ''; position: absolute; top: 50%; left: 4rem; right: 4rem; height: 2px; background: var(--border); z-index: 1; }
+        .status-point { position: relative; z-index: 2; background: var(--surface); padding: 0 1rem; text-align: center; }
+        .status-dot { width: 16px; height: 16px; border-radius: 50%; background: var(--border); margin: 0 auto 0.5rem; transition: var(--transition); }
+        .status-point.active .status-dot { background: var(--accent); box-shadow: 0 0 0 4px rgba(0,85,255,0.2); }
+        .status-point.active span { color: var(--accent); font-weight: 600; }
+
+        /* Portfolio */
+        .portfolio-card { background: var(--text); color: var(--surface); padding: 3rem; border-radius: var(--radius-lg); margin-top: 3rem; position: relative; overflow: hidden; }
+        .portfolio-card p { color: #a1a1aa; }
+        .p-verified { position: absolute; top: 2rem; right: 2rem; display: flex; align-items: center; gap: 0.5rem; color: #10B981; font-size: 0.875rem; font-weight: 600; }
+        .port-grid { display: grid; grid-template-columns: 1fr 2fr; gap: 3rem; margin-top: 2rem; }
+        .port-mockup { background: #27272a; border-radius: var(--radius-md); padding: 1.5rem; border: 1px solid #3f3f46; }
+
+        /* Business Model & Flywheel */
+        .math-block { text-align: center; font-size: 1.5rem; font-weight: 500; margin: 3rem 0; padding: 3rem; background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-lg); }
+        .math-block span { display: block; margin: 0.5rem 0; color: var(--muted); font-size: 1rem; }
+        .flywheel { display: flex; flex-direction: column; align-items: center; gap: 1.5rem; margin-top: 4rem; }
+        .fw-item { padding: 1.5rem 3rem; background: var(--surface); border: 1px solid var(--border); border-radius: 100px; font-weight: 600; letter-spacing: 0.05em; box-shadow: var(--shadow-sm); }
+        .fw-arrow { color: var(--accent); }
+
+        /* Modals */
+        .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(17, 17, 17, 0.4); backdrop-filter: blur(4px); z-index: 1000; display: flex; justify-content: center; align-items: center; opacity: 0; pointer-events: none; transition: opacity 0.3s ease; }
+        .modal-overlay.active { opacity: 1; pointer-events: auto; }
+        .modal-content { background: var(--surface); width: 100%; max-width: 600px; border-radius: var(--radius-lg); padding: 3rem; box-shadow: var(--shadow-lg); transform: translateY(20px); transition: transform 0.3s ease; max-height: 90vh; overflow-y: auto; position: relative; }
+        .modal-overlay.active .modal-content { transform: translateY(0); }
+        .modal-close { position: absolute; top: 1.5rem; right: 1.5rem; color: var(--muted); transition: var(--transition); }
+        .modal-close:hover { color: var(--text); }
+        
+        .form-group { margin-bottom: 1.5rem; }
+        .form-group label { display: block; margin-bottom: 0.5rem; font-size: 0.875rem; font-weight: 500; }
+        .form-group input, .form-group textarea { width: 100%; padding: 0.75rem; border: 1px solid var(--border); border-radius: var(--radius-sm); font-family: inherit; }
+        .step-container { display: none; }
+        .step-container.active { display: block; animation: fadeIn 0.3s ease; }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+        /* Toast */
+        .toast { position: fixed; bottom: 2rem; right: 2rem; background: var(--text); color: var(--surface); padding: 1rem 2rem; border-radius: var(--radius-sm); font-weight: 500; transform: translateY(100px); opacity: 0; transition: var(--transition); z-index: 1100; display: flex; gap: 0.5rem; align-items: center;}
+        .toast.show { transform: translateY(0); opacity: 1; }
+
+        /* Footer */
+        footer { background: var(--surface); padding: 4rem 0; border-top: 1px solid var(--border); }
+        .footer-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; }
+        .footer-links { display: flex; gap: 2rem; }
+        .footer-bottom { margin-top: 4rem; padding-top: 2rem; border-top: 1px solid var(--border); display: flex; justify-content: space-between; font-size: 0.875rem; color: var(--muted); }
+
+        /* ========================================================
+           RESPONSIVE
+        ======================================================== */
+        @media (max-width: 992px) {
+            .hero-grid, .gap-grid, .workflow-grid, .port-grid { grid-template-columns: 1fr; }
+            .hero { padding-top: 8rem; }
+            .demo-dash-grid { grid-template-columns: 1fr; }
+            .demo-sidebar { display: none; }
+        }
+        @media (max-width: 768px) {
+            h1 { font-size: 2.5rem; }
+            h2 { font-size: 2rem; }
+            .nav-links, .nav-actions { display: none; }
+            .menu-toggle { display: block; }
+            .section { padding: 5rem 0; }
+            .modal-content { padding: 2rem; }
+            .status-track::before { display: none; }
+            .status-track { flex-direction: column; gap: 1.5rem; padding: 1.5rem; }
+            .status-point { display: flex; align-items: center; gap: 1rem; text-align: left; padding: 0; }
+            .status-dot { margin: 0; }
+        }
     </style>
 </head>
-<body class="antialiased selection:bg-accent selection:text-white min-h-screen flex flex-col">
+<body>
 
-    <!-- Navigation -->
-    <nav class="sticky top-0 z-50 bg-background/80 backdrop-blur-md border-b border-border">
-        <div class="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
-            <button onclick="navigate('home')" class="flex flex-col leading-none text-left focus:outline-none">
-                <span class="font-bold tracking-tight text-lg text-foreground">ZYQOR</span>
-                <span class="text-[10px] font-medium tracking-widest text-accent uppercase">Intern</span>
+    <!-- ==========================================
+         NAVBAR
+    =========================================== -->
+    <nav class="navbar" id="navbar">
+        <div class="container nav-container">
+            <a href="#" class="logo">
+                <span>ZYQOR</span>
+                <span>Intern</span>
+            </a>
+            <div class="nav-links">
+                <a href="#problem">How it works</a>
+                <a href="#marketplace">Projects</a>
+                <a href="#student">Students</a>
+                <a href="#business">Businesses</a>
+                <a href="#about">About</a>
+            </div>
+            <div class="nav-actions">
+                <a href="#marketplace" class="btn btn-secondary">Explore</a>
+                <button onclick="openPostModal()" class="btn btn-primary">Post a Project</button>
+            </div>
+            <button class="menu-toggle">
+                <i data-lucide="menu"></i>
             </button>
-            <div class="hidden md:flex items-center gap-8">
-                <button onclick="navigate('marketplace')" class="text-sm font-medium text-muted hover:text-foreground transition-colors">Marketplace</button>
-                <button class="text-sm font-medium text-muted hover:text-foreground transition-colors">For Companies</button>
-            </div>
-            <div class="flex items-center gap-4">
-                <button onclick="navigate('dashboard')" class="text-sm font-medium text-foreground hover:text-accent transition-colors">Dashboard</button>
-                <button onclick="navigate('marketplace')" class="bg-accent text-white px-5 py-2.5 rounded-md text-sm font-medium hover:bg-accentHover transition-colors shadow-sm hidden md:block">Get Started</button>
-            </div>
         </div>
     </nav>
 
-    <!-- Main Content Area (Injected by JS) -->
-    <main id="app-root" class="flex-1 w-full"></main>
-
-    <!-- Global Toast Notification -->
-    <div id="toast" class="fixed bottom-5 right-5 bg-foreground text-white px-6 py-3 rounded-lg shadow-float transform translate-y-20 opacity-0 transition-all duration-300 z-50 text-sm font-medium flex items-center gap-3">
-        <svg class="w-5 h-5 text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
-        <span id="toast-message">Success!</span>
-    </div>
-
-    <script>
-        // --- MOCK DATABASE ---
-        const MOCK_PROJECTS = [
-            { id: 1, title: "Landing Page Refresh", company: "SaaS Startup", category: "Frontend", duration: "1-2 weeks", price: "₹5,000", tags: ["React", "Tailwind"] },
-            { id: 2, title: "Social Media Content Pack", company: "D2C Brand", category: "Design", duration: "1 week", price: "₹3,000", tags: ["Figma", "Canva"] },
-            { id: 3, title: "Survey Data Cleanup", company: "Research Agency", category: "Data", duration: "3-5 days", price: "₹2,000", tags: ["Excel", "Python"] }
-        ];
-
-        const appRoot = document.getElementById('app-root');
-
-        // --- ROUTING SYSTEM ---
-        function navigate(view) {
-            appRoot.innerHTML = ''; 
-            if (view === 'home') renderHome();
-            if (view === 'marketplace') renderMarketplace();
-            if (view === 'dashboard') renderDashboard();
-            window.scrollTo(0, 0);
-        }
-
-        // --- VIEWS ---
-        function renderHome() {
-            appRoot.innerHTML = `
-                <div class="fade-in flex flex-col items-center justify-center text-center px-6 py-32 max-w-4xl mx-auto">
-                    <span class="bg-blue-50 text-accent border border-blue-100 px-3 py-1 rounded-full text-xs font-semibold uppercase tracking-wider mb-8">Platform Live</span>
-                    <h1 class="text-5xl md:text-7xl font-semibold tracking-tight text-foreground mb-6 leading-[1.1]">Small Projects.<br>Big Opportunities.</h1>
-                    <p class="text-lg md:text-xl text-muted max-w-2xl mb-10 leading-relaxed">Real-world work for students. Focused execution for growing businesses. Bridge the experience gap without the 6-month commitment.</p>
-                    <div class="flex gap-4 w-full justify-center">
-                        <button onclick="navigate('marketplace')" class="bg-accent text-white px-8 py-4 rounded-md text-base font-medium hover:bg-accentHover transition-colors shadow-sm">Explore Projects</button>
-                        <button onclick="simulateBackendAction('Registering company...')" class="bg-surface text-foreground border border-border px-8 py-4 rounded-md text-base font-medium hover:bg-gray-50 transition-colors shadow-subtle">Post a Project</button>
+    <!-- ==========================================
+         HERO
+    =========================================== -->
+    <header class="hero">
+        <div class="container hero-grid">
+            <div class="hero-content reveal">
+                <span class="badge badge-demo" style="margin-bottom: 1.5rem;">Academic Case Study Prototype</span>
+                <h1>SMALL PROJECTS.<br>BIG OPPORTUNITIES.</h1>
+                <p>Short, skill-based projects that help students build real experience — while helping businesses get small tasks done.</p>
+                <div class="hero-btns">
+                    <a href="#marketplace" class="btn btn-primary">Explore Projects <i data-lucide="arrow-right" style="width:16px; margin-left:8px;"></i></a>
+                    <button onclick="openPostModal()" class="btn btn-secondary">Post a Project</button>
+                </div>
+            </div>
+            <div class="hero-visual reveal" style="transition-delay: 0.2s;">
+                <div class="ui-decoration"></div>
+                <div class="mock-ui">
+                    <div class="mock-ui-header">
+                        <span class="label">Open Project</span>
+                        <span class="text-sm font-semibold">₹2,500</span>
+                    </div>
+                    <h3>Landing Page Redesign</h3>
+                    <p class="text-sm">Early-stage startup • 2 weeks</p>
+                    <div class="mock-tags">
+                        <span class="mock-tag">Figma</span>
+                        <span class="mock-tag">UI/UX</span>
+                        <span class="mock-tag">Web Design</span>
+                    </div>
+                    <div style="width:100%; height:1px; background:var(--border); margin:1.5rem 0;"></div>
+                    <div style="display:flex; justify-content:space-between; align-items:center;">
+                        <span class="text-sm">12 Applications</span>
+                        <button class="btn btn-primary" style="padding: 0.5rem 1rem; font-size:0.8rem;">View Details</button>
                     </div>
                 </div>
-            `;
-        }
+            </div>
+        </div>
+    </header>
 
-        function renderMarketplace() {
-            // Render Skeleton/Loading State first to simulate Backend fetch
-            appRoot.innerHTML = `
-                <div class="max-w-7xl mx-auto px-6 py-12 fade-in">
-                    <div class="mb-10">
-                        <h2 class="text-3xl font-semibold tracking-tight mb-2">Live Marketplace</h2>
-                        <p class="text-muted">Fetching latest projects from the database...</p>
+    <!-- ==========================================
+         PROBLEM & EXPERIENCE GAP
+    =========================================== -->
+    <section id="problem" class="section">
+        <div class="container">
+            <div class="reveal">
+                <h2>EXPERIENCE SHOULDN'T START AFTER GRADUATION.</h2>
+                <p style="max-width: 600px;">The traditional internship model requires months of commitment, locking out busy students and startups who just need focused help. We unbundle internships into specific, manageable deliverables.</p>
+            </div>
+            
+            <div class="gap-grid reveal">
+                <div class="gap-card">
+                    <span class="label">The Old Way</span>
+                    <h3 style="margin-top:0.5rem;">Traditional Internship</h3>
+                    <ul class="gap-list" style="margin-top: 2rem;">
+                        <li><i data-lucide="x-circle"></i> 3–6 month commitment</li>
+                        <li><i data-lucide="x-circle"></i> Broad, undefined roles</li>
+                        <li><i data-lucide="x-circle"></i> High barrier to entry</li>
+                        <li><i data-lucide="x-circle"></i> Focuses on resume filler</li>
+                    </ul>
+                </div>
+                <div class="gap-card highlight">
+                    <span class="label">The Zyqor Way</span>
+                    <h3 style="margin-top:0.5rem;">Micro-Projects</h3>
+                    <ul class="gap-list" style="margin-top: 2rem;">
+                        <li><i data-lucide="check-circle-2"></i> 1–4 week focused sprints</li>
+                        <li><i data-lucide="check-circle-2"></i> Specific, clear deliverables</li>
+                        <li><i data-lucide="check-circle-2"></i> Accessible for beginners</li>
+                        <li><i data-lucide="check-circle-2"></i> Focuses on portfolio proof</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ==========================================
+         HOW IT WORKS
+    =========================================== -->
+    <section class="section bg-surface">
+        <div class="container">
+            <h2 class="reveal">HOW IT WORKS.</h2>
+            <div class="workflow-grid">
+                <div class="workflow-column reveal">
+                    <h3>For Students</h3>
+                    <div class="workflow-step">
+                        <div class="step-num">01</div>
+                        <div>
+                            <h4>Discover</h4>
+                            <p class="text-sm">Browse short-term projects matching your skills.</p>
+                        </div>
                     </div>
-                    <div class="flex items-center justify-center py-20">
-                        <div class="spinner"></div>
-                        <span class="ml-4 text-sm font-medium text-muted">Connecting to server...</span>
+                    <div class="workflow-step">
+                        <div class="step-num">02</div>
+                        <div>
+                            <h4>Apply</h4>
+                            <p class="text-sm">Submit a quick application highlighting your intent.</p>
+                        </div>
+                    </div>
+                    <div class="workflow-step">
+                        <div class="step-num">03</div>
+                        <div>
+                            <h4>Complete</h4>
+                            <p class="text-sm">Execute the deliverable within 1-4 weeks.</p>
+                        </div>
+                    </div>
+                    <div class="workflow-step">
+                        <div class="step-num">04</div>
+                        <div>
+                            <h4>Build Portfolio</h4>
+                            <p class="text-sm">Get approved work added to your verified profile.</p>
+                        </div>
                     </div>
                 </div>
-            `;
-
-            // Simulate Network Delay
-            setTimeout(() => {
-                const projectCards = MOCK_PROJECTS.map(p => `
-                    <div class="bg-surface border border-border p-6 rounded-xl shadow-subtle hover:border-accent/50 hover:shadow-md transition-all flex flex-col">
-                        <div class="flex justify-between items-start mb-4">
-                            <span class="bg-zinc-100 text-zinc-600 border border-zinc-200 px-2.5 py-0.5 rounded-full text-xs font-medium">${p.category}</span>
-                            <span class="text-sm font-medium text-muted">${p.duration}</span>
-                        </div>
-                        <h3 class="text-xl font-semibold mb-1">${p.title}</h3>
-                        <p class="text-sm text-muted mb-4">${p.company}</p>
-                        <div class="flex gap-2 mb-6">
-                            ${p.tags.map(t => `<span class="text-xs text-muted bg-background px-2 py-1 rounded border border-border">${t}</span>`).join('')}
-                        </div>
-                        <div class="mt-auto pt-4 border-t border-border flex justify-between items-center">
-                            <span class="font-semibold text-accent">${p.price}</span>
-                            <button onclick="simulateBackendAction('Submitting application securely...')" class="bg-foreground text-white px-4 py-2 rounded text-sm font-medium hover:bg-zinc-800 transition-colors">Apply Now</button>
+                <div class="workflow-column reveal" style="transition-delay: 0.2s;">
+                    <h3>For Businesses</h3>
+                    <div class="workflow-step">
+                        <div class="step-num">01</div>
+                        <div>
+                            <h4>Post Task</h4>
+                            <p class="text-sm">Define a specific deliverable, timeline, and budget.</p>
                         </div>
                     </div>
-                `).join('');
+                    <div class="workflow-step">
+                        <div class="step-num">02</div>
+                        <div>
+                            <h4>Select Talent</h4>
+                            <p class="text-sm">Review student applications and pick the right fit.</p>
+                        </div>
+                    </div>
+                    <div class="workflow-step">
+                        <div class="step-num">03</div>
+                        <div>
+                            <h4>Review Work</h4>
+                            <p class="text-sm">Receive the completed project and request revisions.</p>
+                        </div>
+                    </div>
+                    <div class="workflow-step">
+                        <div class="step-num">04</div>
+                        <div>
+                            <h4>Approve</h4>
+                            <p class="text-sm">Approve the final deliverable and release payment.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
 
-                appRoot.innerHTML = `
-                    <div class="max-w-7xl mx-auto px-6 py-12 fade-in">
-                        <div class="mb-10 flex justify-between items-end">
-                            <div>
-                                <h2 class="text-3xl font-semibold tracking-tight mb-2">Live Marketplace</h2>
-                                <p class="text-muted">${MOCK_PROJECTS.length} active micro-projects found.</p>
+    <!-- ==========================================
+         MARKETPLACE
+    =========================================== -->
+    <section id="marketplace" class="section">
+        <div class="container">
+            <div class="reveal">
+                <span class="label">Marketplace</span>
+                <h2>START WITH SOMETHING SMALL.</h2>
+                <p>Focused projects. Clear deliverables. A practical way to start building experience.</p>
+            </div>
+
+            <div class="filter-bar reveal">
+                <input type="text" id="searchInput" class="filter-input" placeholder="Search skills or keywords...">
+                <button class="filter-btn active" data-filter="all">All</button>
+                <button class="filter-btn" data-filter="Design">Design</button>
+                <button class="filter-btn" data-filter="Technology">Tech</button>
+                <button class="filter-btn" data-filter="Business">Business</button>
+                <span class="badge badge-demo" style="margin-left: auto;">Illustrative Demo Data</span>
+            </div>
+
+            <div class="projects-grid reveal" id="projectsGrid">
+                <!-- Injected via JS -->
+            </div>
+        </div>
+    </section>
+
+    <!-- ==========================================
+         STUDENT EXPERIENCE
+    =========================================== -->
+    <section id="student" class="section bg-surface">
+        <div class="container">
+            <div class="reveal">
+                <span class="label">Student Experience</span>
+                <h2>BUILD PROOF, NOT JUST A RESUME.</h2>
+                <p>Instead of claiming you have skills, show a verified history of shipped projects.</p>
+            </div>
+
+            <div class="demo-dashboard reveal">
+                <div class="demo-dash-header">
+                    <h4>Student Workspace</h4>
+                    <span class="badge badge-demo">UI Mockup</span>
+                </div>
+                <div class="demo-dash-grid">
+                    <div class="demo-sidebar">
+                        <ul>
+                            <li class="active">Overview</li>
+                            <li>Active Projects</li>
+                            <li>Applications</li>
+                            <li>Verified Portfolio</li>
+                            <li>Settings</li>
+                        </ul>
+                    </div>
+                    <div class="demo-content">
+                        <h3>Landing Page Redesign</h3>
+                        <p class="text-sm" style="margin-bottom: 1rem;">Early-stage Startup • Deadline: 4 Days</p>
+                        
+                        <div class="status-track">
+                            <div class="status-point active">
+                                <div class="status-dot"></div>
+                                <span class="text-sm">Applied</span>
+                            </div>
+                            <div class="status-point active">
+                                <div class="status-dot"></div>
+                                <span class="text-sm">Selected</span>
+                            </div>
+                            <div class="status-point active">
+                                <div class="status-dot"></div>
+                                <span class="text-sm">In Progress</span>
+                            </div>
+                            <div class="status-point">
+                                <div class="status-dot"></div>
+                                <span class="text-sm">Submitted</span>
+                            </div>
+                            <div class="status-point">
+                                <div class="status-dot"></div>
+                                <span class="text-sm">Approved</span>
                             </div>
                         </div>
-                        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                            ${projectCards}
-                        </div>
-                    </div>
-                `;
-            }, 1200);
-        }
-
-        function renderDashboard() {
-            appRoot.innerHTML = `
-                <div class="max-w-7xl mx-auto px-6 py-12 fade-in">
-                    <div class="flex items-center gap-4 mb-8">
-                        <div class="w-16 h-16 rounded-full bg-gradient-to-tr from-accent to-blue-300"></div>
-                        <div>
-                            <h2 class="text-3xl font-semibold tracking-tight">Student Dashboard</h2>
-                            <p class="text-muted">Authenticated as Soham (Demo)</p>
-                        </div>
-                    </div>
-                    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
-                        <div class="bg-surface border border-border p-6 rounded-xl shadow-subtle">
-                            <div class="text-sm font-medium text-muted mb-2">Active Projects</div>
-                            <div class="text-4xl font-semibold">1</div>
-                        </div>
-                        <div class="bg-surface border border-border p-6 rounded-xl shadow-subtle">
-                            <div class="text-sm font-medium text-muted mb-2">Pending Applications</div>
-                            <div class="text-4xl font-semibold">3</div>
-                        </div>
-                        <div class="bg-surface border border-border p-6 rounded-xl shadow-subtle">
-                            <div class="text-sm font-medium text-muted mb-2">Total Earned</div>
-                            <div class="text-4xl font-semibold text-accent">₹12,500</div>
-                        </div>
                     </div>
                 </div>
-            `;
-        }
+            </div>
+        </div>
+    </section>
 
-        // --- FAKE BACKEND INTERACTION ---
-        function simulateBackendAction(loadingText) {
-            const originalHTML = appRoot.innerHTML;
-            appRoot.innerHTML = `
-                <div class="flex flex-col items-center justify-center min-h-[60vh]">
-                    <div class="spinner mb-4 w-12 h-12 border-[4px]"></div>
-                    <h3 class="text-lg font-medium">${loadingText}</h3>
-                    <p class="text-sm text-muted mt-2">Encrypting data and updating database...</p>
-                </div>
-            `;
+    <!-- ==========================================
+         PORTFOLIO PROOF
+    =========================================== -->
+    <section class="section">
+        <div class="container reveal">
+            <h2>SHOW WHAT YOU BUILT.</h2>
+            <p>Completed projects automatically become verified entries in your Zyqor portfolio.</p>
             
-            setTimeout(() => {
-                appRoot.innerHTML = originalHTML; // Restore view
-                showToast("Action completed successfully.");
-            }, 2000);
+            <div class="portfolio-card">
+                <div class="p-verified"><i data-lucide="check-circle-2"></i> Verified Project</div>
+                <span class="label" style="color: #a1a1aa;">Completed Oct 2026</span>
+                <h3 style="color:#fff; margin-top:0.5rem; font-size:2rem;">Website QA Testing Sprint</h3>
+                
+                <div class="port-grid">
+                    <div>
+                        <p class="text-sm" style="margin-bottom:0.5rem; color:#fff;">Role</p>
+                        <p style="margin-bottom:1.5rem;">QA Tester</p>
+                        
+                        <p class="text-sm" style="margin-bottom:0.5rem; color:#fff;">Deliverables</p>
+                        <p style="margin-bottom:1.5rem;">Bug report, cross-browser test matrix, performance audit.</p>
+                        
+                        <p class="text-sm" style="margin-bottom:0.5rem; color:#fff;">Skills Validated</p>
+                        <div class="mock-tags">
+                            <span class="mock-tag" style="background:#3f3f46; border-color:#52525b; color:#d4d4d8;">Testing</span>
+                            <span class="mock-tag" style="background:#3f3f46; border-color:#52525b; color:#d4d4d8;">Detail</span>
+                        </div>
+                    </div>
+                    <div class="port-mockup">
+                        <div style="display:flex; gap:0.5rem; margin-bottom:1rem;">
+                            <div style="width:12px; height:12px; border-radius:50%; background:#ef4444;"></div>
+                            <div style="width:12px; height:12px; border-radius:50%; background:#eab308;"></div>
+                            <div style="width:12px; height:12px; border-radius:50%; background:#22c55e;"></div>
+                        </div>
+                        <div style="width:100%; height:8px; background:#3f3f46; border-radius:4px; margin-bottom:1rem;"></div>
+                        <div style="width:80%; height:8px; background:#3f3f46; border-radius:4px; margin-bottom:2rem;"></div>
+                        <div style="display:flex; justify-content:center; align-items:center; height:100px; border:1px dashed #52525b; border-radius:8px; color:#a1a1aa; font-size:0.875rem;">
+                            Illustrative Work Preview
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ==========================================
+         BUSINESS & MODEL
+    =========================================== -->
+    <section id="business" class="section bg-surface">
+        <div class="container">
+            <div class="reveal">
+                <span class="label">For Businesses</span>
+                <h2>HAVE A SMALL TASK? POST IT.</h2>
+                <p>Get focused deliverables completed by ambitious students without the overhead of a full-time hire.</p>
+            </div>
+
+            <div class="math-block reveal">
+                <span class="label">Illustrative Unit Economics</span>
+                <div>10–15% <span style="display:inline; font-size:1rem; font-weight:400;">Platform Commission</span></div>
+                <div style="margin: 1rem 0; font-size:1rem; color:var(--border);">+</div>
+                <div>₹200 <span style="display:inline; font-size:1rem; font-weight:400;">Featured Project Fee</span></div>
+                
+                <div style="margin-top: 2rem; padding-top: 2rem; border-top: 1px solid var(--border); font-size:1.125rem;">
+                    ₹2,000 project × 15% = <strong style="color:var(--accent);">₹300 Revenue</strong>
+                </div>
+            </div>
+
+            <div class="reveal" style="margin-top: 6rem;">
+                <h3 style="text-align:center;">ILLUSTRATIVE MARKETPLACE FLYWHEEL</h3>
+                <div class="flywheel">
+                    <div class="fw-item">More Businesses</div>
+                    <i data-lucide="arrow-down" class="fw-arrow"></i>
+                    <div class="fw-item">More Micro-Projects</div>
+                    <i data-lucide="arrow-down" class="fw-arrow"></i>
+                    <div class="fw-item">More Students</div>
+                    <i data-lucide="arrow-down" class="fw-arrow"></i>
+                    <div class="fw-item">More Portfolio Proof</div>
+                    <i data-lucide="arrow-down" class="fw-arrow"></i>
+                    <div class="fw-item">Trust & Growth</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ==========================================
+         EXPANSION & ABOUT
+    =========================================== -->
+    <section id="about" class="section">
+        <div class="container reveal">
+            <div style="display:grid; grid-template-columns:1fr 1fr; gap:4rem;">
+                <div>
+                    <span class="label">Proposed Expansion Path</span>
+                    <h3 style="margin:1rem 0;">From Campus to State.</h3>
+                    <div style="margin-top:2rem; display:flex; flex-direction:column; gap:1rem;">
+                        <div style="padding:1rem; border:1px solid var(--accent); border-radius:var(--radius-md); font-weight:500;">01. ITM / Kharghar (Launch)</div>
+                        <div style="padding:1rem; border:1px solid var(--border); border-radius:var(--radius-md); color:var(--muted);">02. Navi Mumbai Colleges</div>
+                        <div style="padding:1rem; border:1px solid var(--border); border-radius:var(--radius-md); color:var(--muted);">03. Mumbai Tech Ecosystem</div>
+                        <div style="padding:1rem; border:1px solid var(--border); border-radius:var(--radius-md); color:var(--muted);">04. Maharashtra Wide</div>
+                    </div>
+                </div>
+                <div>
+                    <span class="label">Academic Disclaimer</span>
+                    <h3 style="margin:1rem 0;">About Zyqor Intern</h3>
+                    <p style="margin-bottom:1.5rem;">Zyqor Intern is an academic startup concept exploring how short-term project-based work could structurally fix the entry-level experience paradox.</p>
+                    <p>All projects, figures, and UI elements presented on this page are illustrative prototypes designed to demonstrate the platform's potential value proposition to both students and small businesses.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ==========================================
+         FINAL CTA & FOOTER
+    =========================================== -->
+    <section class="section section-dark" style="text-align: center; border:none;">
+        <div class="container reveal">
+            <h2 style="font-size:clamp(2.5rem, 5vw, 4rem);">YOUR FIRST PROJECT<br>DOESN'T NEED TO BE HUGE.</h2>
+            <p style="margin-bottom:3rem; font-size:1.5rem;" class="muted">IT JUST NEEDS TO BE REAL.</p>
+            <div style="display:flex; justify-content:center; gap:1rem;">
+                <a href="#marketplace" class="btn" style="background:#fff; color:#000;">Explore Projects</a>
+                <button onclick="openPostModal()" class="btn" style="border:1px solid #3f3f46; color:#fff;">Post a Project</button>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <div class="footer-grid">
+                <div>
+                    <div class="logo">
+                        <span>ZYQOR</span>
+                        <span>Intern</span>
+                    </div>
+                    <p class="text-sm" style="margin-top: 1rem;">Small Projects. Big Opportunities.</p>
+                </div>
+                <div class="footer-links">
+                    <a href="#problem" class="text-sm">How it works</a>
+                    <a href="#marketplace" class="text-sm">Projects</a>
+                    <a href="#student" class="text-sm">Students</a>
+                    <a href="#about" class="text-sm">About Concept</a>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <span>&copy; 2026 Zyqor Intern Concept</span>
+                <span class="badge badge-demo">Academic Case Study · Concept Product</span>
+            </div>
+        </div>
+    </footer>
+
+    <!-- ==========================================
+         MODALS
+    =========================================== -->
+    <!-- Project Details Modal -->
+    <div class="modal-overlay" id="projectModal">
+        <div class="modal-content">
+            <button class="modal-close" onclick="closeModals()"><i data-lucide="x"></i></button>
+            <div id="modalContent">
+                <!-- Injected via JS -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Post Project Modal (Multi-step) -->
+    <div class="modal-overlay" id="postModal">
+        <div class="modal-content">
+            <button class="modal-close" onclick="closeModals()"><i data-lucide="x"></i></button>
+            <span class="badge badge-demo" style="margin-bottom: 1rem;">Demo Flow</span>
+            <h3 style="margin-bottom: 1.5rem;">Post a New Project</h3>
+            
+            <div id="step1" class="step-container active">
+                <div class="form-group">
+                    <label>Project Title</label>
+                    <input type="text" placeholder="e.g. Landing Page Redesign">
+                </div>
+                <div class="form-group">
+                    <label>Category</label>
+                    <select style="width:100%; padding:0.75rem; border:1px solid var(--border); border-radius:var(--radius-sm);">
+                        <option>Design</option>
+                        <option>Technology</option>
+                        <option>Business</option>
+                        <option>Data</option>
+                    </select>
+                </div>
+                <button class="btn btn-primary" style="width:100%;" onclick="nextStep(2)">Continue to Skills</button>
+            </div>
+
+            <div id="step2" class="step-container">
+                <div class="form-group">
+                    <label>Required Skills (comma separated)</label>
+                    <input type="text" placeholder="e.g. Figma, UI/UX">
+                </div>
+                <div class="form-group">
+                    <label>Deliverables Description</label>
+                    <textarea rows="3" placeholder="What exactly needs to be submitted?"></textarea>
+                </div>
+                <div style="display:flex; gap:1rem;">
+                    <button class="btn btn-secondary" style="flex:1;" onclick="nextStep(1)">Back</button>
+                    <button class="btn btn-primary" style="flex:2;" onclick="nextStep(3)">Continue to Timeline</button>
+                </div>
+            </div>
+
+            <div id="step3" class="step-container">
+                <div class="form-group">
+                    <label>Duration (Weeks)</label>
+                    <input type="number" placeholder="e.g. 2">
+                </div>
+                <div class="form-group">
+                    <label>Budget (₹)</label>
+                    <input type="number" placeholder="e.g. 2500">
+                </div>
+                <div style="display:flex; gap:1rem;">
+                    <button class="btn btn-secondary" style="flex:1;" onclick="nextStep(2)">Back</button>
+                    <button class="btn btn-primary" style="flex:2;" onclick="publishDemoProject()">Publish Demo Project</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast -->
+    <div id="toast" class="toast">
+        <i data-lucide="check-circle-2" style="color:#10B981;"></i>
+        <span id="toastMsg">Action successful</span>
+    </div>
+
+    <!-- ==========================================
+         JAVASCRIPT
+    =========================================== -->
+    <script>
+        // Initialize Icons
+        lucide.createIcons();
+
+        // Data (Illustrative)
+        const projects = [
+            { id: 1, title: "Landing Page Redesign", category: "Design", duration: "2 weeks", price: "₹2,500", skills: ["Figma", "UI/UX", "Web Design"], company: "Early-stage Startup", desc: "Redesign our main landing page to improve conversion rates. Needs a modern, clean aesthetic.", deliverables: "Figma file containing desktop and mobile layouts, plus a basic style guide." },
+            { id: 2, title: "Instagram Content Pack", category: "Design", duration: "1 week", price: "₹1,500", skills: ["Canva", "Social Media", "Branding"], company: "D2C Brand", desc: "Create a cohesive set of 12 Instagram post templates based on our brand colors.", deliverables: "Editable Canva link and exported PNG assets." },
+            { id: 3, title: "Competitor Research", category: "Business", duration: "2 weeks", price: "₹2,000", skills: ["Research", "Excel", "Analysis"], company: "B2B SaaS", desc: "Analyze 5 main competitors and document their pricing, features, and target audience.", deliverables: "A formatted Excel matrix and a 1-page summary PDF." },
+            { id: 4, title: "Website QA Testing", category: "Technology", duration: "1 week", price: "₹1,200", skills: ["Testing", "Attention to Detail"], company: "E-commerce App", desc: "Go through our new checkout flow on mobile and desktop and document any bugs.", deliverables: "A detailed bug report with screenshots." },
+            { id: 5, title: "Excel Sales Dashboard", category: "Data", duration: "2 weeks", price: "₹2,500", skills: ["Excel", "Data Visualization"], company: "Local Agency", desc: "Clean up raw CSV sales data and create a visual dashboard highlighting weekly trends.", deliverables: "Cleaned dataset and interactive dashboard file." },
+            { id: 6, title: "React Component Library", category: "Technology", duration: "3 weeks", price: "₹4,000", skills: ["React", "Tailwind CSS"], company: "Tech Startup", desc: "Build 5 reusable UI components based on provided Figma designs.", deliverables: "Clean, documented React code submitted via GitHub." }
+        ];
+
+        // DOM Elements
+        const grid = document.getElementById('projectsGrid');
+        const filterBtns = document.querySelectorAll('.filter-btn');
+        const searchInput = document.getElementById('searchInput');
+        const navbar = document.getElementById('navbar');
+        const projectModal = document.getElementById('projectModal');
+        const postModal = document.getElementById('postModal');
+        const modalContent = document.getElementById('modalContent');
+        const toast = document.getElementById('toast');
+        const toastMsg = document.getElementById('toastMsg');
+
+        // Render Projects
+        function renderProjects(data) {
+            grid.innerHTML = data.map(p => `
+                <div class="project-card" onclick="openProject(${p.id})">
+                    <div class="p-meta">
+                        <span class="badge">${p.category}</span>
+                        <span class="text-sm font-semibold">${p.duration}</span>
+                    </div>
+                    <h3 class="p-title">${p.title}</h3>
+                    <p class="p-company">${p.company}</p>
+                    <div class="mock-tags" style="margin-top:0;">
+                        ${p.skills.slice(0,3).map(s => `<span class="mock-tag">${s}</span>`).join('')}
+                    </div>
+                    <div class="p-footer">
+                        <span class="p-price">${p.price}</span>
+                        <span style="color:var(--accent); font-size:0.875rem; font-weight:500;">View &rarr;</span>
+                    </div>
+                </div>
+            `).join('');
+        }
+        
+        renderProjects(projects);
+
+        // Filters & Search
+        filterBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                filterBtns.forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                const cat = btn.getAttribute('data-filter');
+                const filtered = cat === 'all' ? projects : projects.filter(p => p.category === cat);
+                renderProjects(filtered);
+            });
+        });
+
+        searchInput.addEventListener('input', (e) => {
+            const term = e.target.value.toLowerCase();
+            const filtered = projects.filter(p => 
+                p.title.toLowerCase().includes(term) || 
+                p.skills.some(s => s.toLowerCase().includes(term))
+            );
+            renderProjects(filtered);
+        });
+
+        // Sticky Navbar
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 50) navbar.classList.add('scrolled');
+            else navbar.classList.remove('scrolled');
+        });
+
+        // Intersection Observer for Animations
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('active');
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.1 });
+        
+        document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+        // Modals
+        function openProject(id) {
+            const p = projects.find(x => x.id === id);
+            modalContent.innerHTML = `
+                <span class="badge badge-demo" style="margin-bottom: 1rem;">Illustrative Project</span>
+                <div style="display:flex; justify-content:space-between; align-items:start; margin-bottom:1.5rem;">
+                    <h2>${p.title}</h2>
+                    <span class="p-price" style="font-size:1.5rem;">${p.price}</span>
+                </div>
+                
+                <div style="display:grid; grid-template-columns: 1fr 1fr; gap:1rem; margin-bottom:2rem;">
+                    <div style="padding:1rem; background:var(--bg); border-radius:var(--radius-sm); border:1px solid var(--border);">
+                        <div class="text-sm">Duration</div>
+                        <div style="font-weight:600;">${p.duration}</div>
+                    </div>
+                    <div style="padding:1rem; background:var(--bg); border-radius:var(--radius-sm); border:1px solid var(--border);">
+                        <div class="text-sm">Category</div>
+                        <div style="font-weight:600;">${p.category}</div>
+                    </div>
+                </div>
+
+                <h4 style="margin-bottom:0.5rem;">Overview</h4>
+                <p style="margin-bottom:1.5rem; font-size:1rem;">${p.desc}</p>
+                
+                <h4 style="margin-bottom:0.5rem;">Deliverables</h4>
+                <p style="margin-bottom:1.5rem; font-size:1rem; color:var(--text);">${p.deliverables}</p>
+                
+                <h4 style="margin-bottom:0.5rem;">Required Skills</h4>
+                <div class="mock-tags" style="margin-bottom:2.5rem;">
+                    ${p.skills.map(s => `<span class="mock-tag">${s}</span>`).join('')}
+                </div>
+
+                <button class="btn btn-primary" style="width:100%;" onclick="submitDemoApplication()">APPLY FOR PROJECT</button>
+            `;
+            projectModal.classList.add('active');
+            document.body.style.overflow = 'hidden';
         }
 
-        function showToast(message) {
-            const toast = document.getElementById('toast');
-            document.getElementById('toast-message').innerText = message;
-            toast.classList.remove('translate-y-20', 'opacity-0');
-            setTimeout(() => {
-                toast.classList.add('translate-y-20', 'opacity-0');
-            }, 3000);
+        function openPostModal() {
+            postModal.classList.add('active');
+            nextStep(1); // Reset to step 1
+            document.body.style.overflow = 'hidden';
         }
 
-        // Init app
-        navigate('home');
+        function closeModals() {
+            projectModal.classList.remove('active');
+            postModal.classList.remove('active');
+            document.body.style.overflow = '';
+        }
+
+        function nextStep(step) {
+            document.querySelectorAll('.step-container').forEach(el => el.classList.remove('active'));
+            document.getElementById('step' + step).classList.add('active');
+        }
+
+        // Click outside to close
+        window.addEventListener('click', (e) => {
+            if (e.target === projectModal || e.target === postModal) closeModals();
+        });
+
+        // ESC key to close
+        window.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') closeModals();
+        });
+
+        // Demo Actions & Toast
+        function showToast(msg) {
+            toastMsg.innerText = msg;
+            toast.classList.add('show');
+            setTimeout(() => toast.classList.remove('show'), 3000);
+        }
+
+        function submitDemoApplication() {
+            closeModals();
+            showToast("Application saved in demo mode.");
+        }
+
+        function publishDemoProject() {
+            closeModals();
+            showToast("Demo project published successfully.");
+        }
     </script>
 </body>
 </html>
